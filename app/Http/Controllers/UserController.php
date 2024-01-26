@@ -18,7 +18,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // $request->session()->forget('users');
         // Get users from the session
         $users = $request->session()->get('users', []);
 
