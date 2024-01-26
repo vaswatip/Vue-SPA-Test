@@ -14,20 +14,21 @@
         name: user.name,
         gender: user.gender,
         address: user.address,
-        cover_image: user.cover_image
+        cover_image: user.cover_image,
+        _method: "put"
     });
 
     const previewImage = ref(form.cover_image ? '/storage/uploads/' + form.cover_image : null);
     const handleImageUpload = (event) => {
         form.cover_image =  event.target.files[0];
-
         if (form.cover_image) {
             previewImage.value = URL.createObjectURL(form.cover_image);
         }
     }
 
     const submitForm = () => {
-        form.put(route("users.update", [user.id]));
+        // form.put(route("users.update", [user.id]));
+        form.post(route("users.update", [user.id]));
     };
 </script>
 

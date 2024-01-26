@@ -166,7 +166,6 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'gender' => ['required', 'string', 'in:Male,Female'],
             'address' => ['required', 'string', 'max:100'],
-            // 'cover_image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Max size is 2MB
         ]);
 
         // Get users from the session
@@ -185,14 +184,14 @@ class UserController extends Controller
                 // Move the uploaded file to a public directory
                 $request->cover_image->storeAs('public/uploads', $imageName);
             } else {
-                $imageName = null;
+                $imageName = $users[$userIndex]['cover_image'];
             }
 
             // Update user details in the session
             $users[$userIndex]['name'] = $request->name;
             $users[$userIndex]['address'] = $request->address;
             $users[$userIndex]['gender'] = $request->gender;
-            // $users[$userIndex]['cover_image'] = $imageName;
+            $users[$userIndex]['cover_image'] = $imageName;
 
             // Update the request data directly in the session
             $request->session()->put('users', $users);
@@ -219,7 +218,6 @@ class UserController extends Controller
         if ($request->session()->has('users')) {
             $users = $request->session()->get('users');
             $userIndex = array_search($userId, array_column($users, 'id'));
-            // dd($userIndex);
 
             if ($userIndex !== false) {
                 $fileToDelete = 'uploads/' . $users[$userIndex]['cover_image'];
