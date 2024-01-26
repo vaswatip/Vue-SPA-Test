@@ -12,7 +12,7 @@
     const errorMessage = ref(props.error);
     const sortCriteria = ref('ID-ASC'); // Default sorting criteria
     const sortedUsers = ref(props.users);
-
+    
     // Watcher to sort the users when sortCriteria changes
     watch(() => sortCriteria.value, (newVal) => {
         sortUsers(newVal);
@@ -20,7 +20,7 @@
 
     // Function to handle user sorting
     const sortUsers = (criteria) => {
-        const usersCopy = [...props.users]; // Create a copy of the users array
+        const usersCopy = sortedUsers.value.slice(); //[...props.users]; // Create a copy of the users array
 
         // Implement your sorting logic here based on criteria
         if (criteria === 'ID-ASC') {
@@ -50,6 +50,7 @@
                 if (response.ok) {
                     const responseData = await response.json();
                     sortedUsers.value = responseData.users;
+                    sortCriteria.value = 'ID-ASC';
                     successMessage.value = responseData.success;
                 } else {
                     errorMessage.value = ('Failed to delete item: ' + response.statusText);
@@ -136,7 +137,7 @@
                         <tbody>
                             <tr v-if="sortedUsers.length" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(user, index) in sortedUsers" :key="user.id">
                                 <td class="px-6 py-4">
-                                    {{ (index + 1) }}
+                                    {{ user.id }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ user.name }}

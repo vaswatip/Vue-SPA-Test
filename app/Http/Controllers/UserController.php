@@ -18,6 +18,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        // $request->session()->forget('users');
         // Get users from the session
         $users = $request->session()->get('users', []);
 
@@ -218,6 +219,7 @@ class UserController extends Controller
         if ($request->session()->has('users')) {
             $users = $request->session()->get('users');
             $userIndex = array_search($userId, array_column($users, 'id'));
+            // dd($userIndex);
 
             if ($userIndex !== false) {
                 $fileToDelete = 'uploads/' . $users[$userIndex]['cover_image'];
